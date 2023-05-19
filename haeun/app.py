@@ -1,9 +1,9 @@
 import os
 import sys
-from PyQt5 import QtGui
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QLineEdit, \
+from PyQt6 import QtGui
+from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton, QLineEdit, \
     QFileDialog, QMessageBox, QScrollArea, QTextEdit
-from PyQt5.QtCore import Qt
+from PyQt6.QtCore import Qt
 import WSOLA
 
 
@@ -14,7 +14,7 @@ class MainWindow(QWidget):
 
     def initUI(self):
         self.setWindowTitle("Audio Speed Converter")
-        self.setMinimumSize(300, 500)  # set the initial window size
+        self.setMinimumSize(800, 500)  # set the initial window size
 
         # Algorithm dropdown
         algorithm_label = QLabel("Algorithm:")
@@ -41,8 +41,8 @@ class MainWindow(QWidget):
         self.source_path_button.clicked.connect(self.selectSourcePath)
         self.source_path_display = QTextEdit()
         self.source_path_display.setReadOnly(True)
-        self.source_path_display.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.source_path_display.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.source_path_display.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.source_path_display.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
 
         source_path_layout = QVBoxLayout()
         source_path_layout.addWidget(source_path_label)
@@ -76,8 +76,8 @@ class MainWindow(QWidget):
 
     def selectSourcePath(self):
         file_dialog = QFileDialog()
-        file_dialog.setFileMode(QFileDialog.ExistingFiles)
-        if file_dialog.exec_():
+        file_dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        if file_dialog.exec():
             self.source_path_list = file_dialog.selectedFiles()
             self.source_path_display.setText(
                 f"{len(self.source_path_list)} file(s) selected:\n" + "\n".join(self.source_path_list))
@@ -85,7 +85,7 @@ class MainWindow(QWidget):
     def selectSavePath(self):
         folder_dialog = QFileDialog()
         folder_dialog.setFileMode(QFileDialog.Directory)
-        if folder_dialog.exec_():
+        if folder_dialog.exec():
             self.save_path = folder_dialog.selectedFiles()[0]
             self.save_path_display.setText(self.save_path)
             self.same_as_source_checkbox.setChecked(False)
@@ -100,7 +100,7 @@ class MainWindow(QWidget):
         else:
             folder_dialog = QFileDialog()
             folder_dialog.setFileMode(QFileDialog.Directory)
-            if folder_dialog.exec_():
+            if folder_dialog.exec():
                 self.save_path = folder_dialog.selectedFiles()[0]
                 self.save_path_display.setText(self.save_path)
 
@@ -120,4 +120,4 @@ class MainWindow(QWidget):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MainWindow()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
